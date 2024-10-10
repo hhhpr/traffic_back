@@ -1,0 +1,8 @@
+spring:
+ application:
+   name: demo8
+ datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://mysql.sqlpub.com:3306/hprtraffic
+  username: hpr2388245517
+  password: zRn1Gx1Zu8J9Xr7q

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.traffic.Mapper.FetchData">
+    <insert id="storePOIs">
+        INSERT INTO furniture(id,name,address,latitude,longitude)
+        VALUES (#{id},#{name},#{address},#{latitude},#{longitude})
+    </insert>
+
+    <select id="woodFacPOIList">
+        select * from woodfactory1;
+    </select>
+    <select id="furFacPOIList">
+        select * from furniturefactory;
+    </select>
+    <select id="furPOIList">
+        select * from furniture;
+    </select>
+</mapper>
