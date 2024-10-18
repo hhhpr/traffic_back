@@ -3,6 +3,10 @@ spring:
    name: demo8
  datasource:
   driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://mysql.sqlpub.com:3306/hprtraffic
+  url: jdbc:mysql://mysql.sqlpub.com:3306/hprtraffic?allowMultiQueries=true
   username: hpr2388245517
   password: zRn1Gx1Zu8J9Xr7q
+
+mybatis:
+ configuration:
+  default-executor-type: BATCH

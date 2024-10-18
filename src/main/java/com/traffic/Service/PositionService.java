@@ -17,6 +17,5 @@ public class PositionService {
         pos2=new Position(new double[]{104.274964, 30.74687},new double[]{103.807823, 30.86728});
         positionResult= new Position[]{pos1,pos2};
         return positionResult;
-
     }
 }
