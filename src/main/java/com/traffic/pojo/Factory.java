@@ -1,9 +1,10 @@
 package com.traffic.pojo;
 
 public class Factory {
-    int id;
-    String name;
-    String address;
-    double latitude;
-    double longitude;
+    public int id;
+    public String name;
+    public String address;
+    public double latitude;
+    public double longitude;
+    public int clas;
 }

@@ -1,9 +1,9 @@
 package com.traffic.pojo;
 
 public class Car {
-    int id;
-    String name;
-    int load;
-    double latitude;
-    double longitude;
+    public int id;
+    public String type;
+    public int load;
+    public double latitude;
+    public double longitude;
 }

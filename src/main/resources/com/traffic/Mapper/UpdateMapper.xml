@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.traffic.Mapper.UpdateMapper">
+    <update id="updateTime">
+        UPDATE ${factoryName}
+        SET readytime = #{ranNum}
+        WHERE id = #{factoryId}
+    </update>
+    <update id="updateCar">
+        UPDATE car
+        SET isready = #{isready},longitude = #{longitude},latitude = #{latitude}
+        WHERE id=#{carId}
+    </update>
+</mapper>

@@ -1,5 +1,6 @@
 package com.traffic.pojo;
 
 public class ReqBody {
-    int factoryClass;
+    public String factoryName;
+    public int low;
 }

@@ -10,14 +10,22 @@
         </foreach>
     </update>
 
+    <update id="changeCarStatus">
+        <foreach collection="ids" item="id" index="index" open="" separator="" close="">
+            UPDATE car
+            SET isready = #{isReady}
+            WHERE id=#{id};
+        </foreach>
+    </update>
+
     <select id="chooseFactory">
-        SELECT (id,name,address,latitude,longitude)
+        SELECT id,name,address,latitude,longitude,clas
         FROM ${factoryName}
         WHERE readytime &lt; CURRENT_TIMESTAMP;
     </select>
 
     <select id="chooseCar">
-        SELECT (id,type,load,latitude,longitude)
+        SELECT id,type,`load`,latitude,longitude
         FROM car
         WHERE isready = 1;
     </select>

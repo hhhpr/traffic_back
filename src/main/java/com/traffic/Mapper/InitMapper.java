@@ -13,7 +13,9 @@ public interface InitMapper {
     void initFactoryTime(@Param("timestamps") List<String> timestamps,
                          @Param("ids") List<Integer> ids,
                          @Param("tableName")String tableName);
+    void changeCarStatus(@Param("ids") List<Integer> ids,@Param("isReady") int isReady);
 
     Factory[] chooseFactory(@Param("factoryName") String factoryName);
     Car[] chooseCar();
+
 }
