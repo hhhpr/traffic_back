@@ -1,6 +1,8 @@
 package com.traffic.Service;
 
 import com.traffic.Mapper.UpdateMapper;
+import com.traffic.Mapper.Utils;
+import com.traffic.pojo.Result;
 import com.traffic.pojo.UpdateBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,9 @@ public class UpdateService {
 
     @Autowired
     private UpdateMapper updateMapper;
-    public void updateTimeAndIsready(UpdateBody updateBody,boolean flag,int id,int clas) {
+    @Autowired
+    private Utils utils;
+    public void updateTime(UpdateBody updateBody,boolean flag,int id,int clas) {
         String factoryName;
         if(clas==1) {
             factoryName = "woodfactory1";
@@ -32,11 +36,26 @@ public class UpdateService {
             updateMapper.updateTime(id,ranNum,factoryName);
         }else{
             updateMapper.updateTime(updateBody.factoryId, ranNum,factoryName);
-            updateMapper.updateCar(updateBody.carId,updateBody.longitude,updateBody.latitude,1);
         }
     }
 
-    public void updateTimeAndIsready(UpdateBody updateBody) {
-        updateTimeAndIsready(updateBody, true,-1,updateBody.clas); // 默认值为 false
+    public void updateTime(UpdateBody updateBody) {
+        updateTime(updateBody, true,-1,updateBody.clas); // 默认值为 false
+    }
+
+    public void updateIsReady(UpdateBody updateBody) {
+        updateMapper.updateCar(updateBody.carId,updateBody.longitude,updateBody.latitude,1);
+    }
+
+    public UpdateBody getGoods(UpdateBody updateBody) {
+        int RowCount;
+        Random random=new Random();
+        if(updateBody.clas==1){
+            RowCount=utils.getRowCount("furniturefactory");
+            return updateMapper.getFactoryGoods("furniturefactory", random.nextInt(RowCount)+1)[0];
+        }else {
+            RowCount=utils.getRowCount("furniture");
+            return updateMapper.getFactoryGoods("furniture", random.nextInt(RowCount)+1)[0];
+        }
     }
 }

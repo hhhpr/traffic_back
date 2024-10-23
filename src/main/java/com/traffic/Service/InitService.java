@@ -82,9 +82,7 @@ public class InitService {
         }
 
         initMapper.changeCarStatus(cars,0);
-        for (int i = 0; i < factorieschooose.length; i++) {
-            updateService.updateTimeAndIsready(null,false,factorieschooose[i].id,factorieschooose[i].clas);
-        }
+
         res.add(factorieschooose);
         res.add(carschoose);
         return res;

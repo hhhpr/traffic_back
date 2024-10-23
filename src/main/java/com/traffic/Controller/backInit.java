@@ -27,7 +27,7 @@ public class backInit {
         return Result.success("初始化生产信息成功。");
     }
 
-    //初始化后返回可进行仿真的仓库和车辆
+    //返回可进行运货的工厂和车辆，用于通知车辆到取货
     @PostMapping("/factoryAndCar")
     public Result initFactoryAndCar(@RequestBody ReqBody reqBody){
         List<Object> res = initService.backFactoryAndCar(reqBody);

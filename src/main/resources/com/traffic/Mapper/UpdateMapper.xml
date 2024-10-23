@@ -11,4 +11,9 @@
         SET isready = #{isready},longitude = #{longitude},latitude = #{latitude}
         WHERE id=#{carId}
     </update>
+    <select id="getFactoryGoods">
+        SELECT id AS carId,id AS factoryId,latitude,longitude,clas
+        FROM ${factoryName}
+        WHERE id=#{id}
+    </select>
 </mapper>

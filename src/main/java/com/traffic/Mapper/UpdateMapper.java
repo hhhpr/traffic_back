@@ -1,5 +1,6 @@
 package com.traffic.Mapper;
 
+import com.traffic.pojo.UpdateBody;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,7 @@ public interface UpdateMapper {
                    @Param("longitude") double longitude,
                    @Param("latitude") double latitude,
                    @Param("isready") int isready);
+
+    UpdateBody[] getFactoryGoods(@Param("factoryName") String factoryName,
+                               @Param("id") int id);
 }
