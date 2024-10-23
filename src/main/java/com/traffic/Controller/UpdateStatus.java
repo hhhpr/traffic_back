@@ -18,7 +18,7 @@ public class UpdateStatus {
     @Autowired
     private UpdateService updateService;
 
-    //更新工厂可仿真时间，用于取货后更新
+    //更新工厂可仿真时间，用于车辆取货后更新该工厂下一次可取货的时间
     @PostMapping("/time")
     public Result updateT(@RequestBody UpdateBody updateBody){
         updateService.updateTime(updateBody);

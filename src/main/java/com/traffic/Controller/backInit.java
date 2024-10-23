@@ -17,7 +17,7 @@ public class backInit {
     @Autowired
     private InitService initService;
 
-    //初始化仓库时间信息和车辆空闲信息
+    //初始化仓库时间信息和车辆空闲信息，随机生成一个时间，到达该时间点后表示该工厂有货物需要运输。将所有车辆状态置为空闲状态
     @GetMapping("/start")
     public Result initTime(@RequestParam("factoryName")String factoryName){
         initService.initTime("woodfactory1",5);
@@ -27,7 +27,7 @@ public class backInit {
         return Result.success("初始化生产信息成功。");
     }
 
-    //返回可进行运货的工厂和车辆，用于通知车辆到取货
+    //返回可进行运货的工厂和车辆，用于通知车辆到该工厂位置取货
     @PostMapping("/factoryAndCar")
     public Result initFactoryAndCar(@RequestBody ReqBody reqBody){
         List<Object> res = initService.backFactoryAndCar(reqBody);

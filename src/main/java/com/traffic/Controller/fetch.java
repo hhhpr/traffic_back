@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
+//之前用于向数据库批量添加工厂，现在暂时无用
 @Slf4j
 @RestController
 public class fetch {
