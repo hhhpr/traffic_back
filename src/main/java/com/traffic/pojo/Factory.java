@@ -7,4 +7,11 @@ public class Factory {
     public double latitude;
     public double longitude;
     public int clas;
+
+    public String goodsID;
+    public int rawInventory;
+    public int goodsInventory;
+    public int totalInventory;
+    public double transRate;
+    public int speedRate;
 }
