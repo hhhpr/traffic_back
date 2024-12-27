@@ -1,5 +1,8 @@
 package com.traffic.pojo;
 
+import lombok.Data;
+
+@Data
 public class Factory {
     public int id;
     public String name;
