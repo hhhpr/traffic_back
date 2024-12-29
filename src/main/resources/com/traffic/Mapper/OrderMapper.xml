@@ -55,8 +55,4 @@
         ORDER BY `load` DESC
     </select>
 
-    <update id="matchingCar">
-        UPDATE orders
-        SET
-    </update>
 </mapper>
