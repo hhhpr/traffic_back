@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.traffic.Mapper.OrderMapper">
-    <select id="getOrderCount" resultType="java.lang.Integer">
+    <select id="getOrderCount" resultType="int">
         SELECT COUNT(*)
         FROM orders
         WHERE state = #{state}
 
     </select>
 
-    <select id="getCarCount" resultType="java.lang.Integer">
+    <select id="getCarCount" resultType="int">
         SELECT COUNT(*)
         FROM car
     </select>
 
     <select id="getOrderFactory">
---         id, name, latitude, longitude, goodsID
         SELECT *
         FROM ${tableName}
-        ORDER BY (rawInventory+goodsInventory) / totalInventory ASC
-        LIMIT #{amount};
+        ORDER BY (rawInventory+goodsInventory) / totalInventory DESC
     </select>
 
     <update id="updateFactoryInventory">
@@ -54,8 +52,7 @@
         SELECT *
         FROM car
         WHERE isready = 1
-        ORDER BY load DESC
-        LIMIT #{amout}
+        ORDER BY `load` DESC
     </select>
 
     <update id="matchingCar">

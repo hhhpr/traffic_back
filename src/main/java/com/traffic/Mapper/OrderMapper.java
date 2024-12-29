@@ -8,16 +8,16 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface OrderMapper {
-    Integer getOrderCount(@Param("state") int state);
+    int getOrderCount(@Param("state") int state);
 
-    Integer getCarCount();
+    int getCarCount();
 
-    Factory[] getOrderFactory(@Param("amount") int amount, @Param("tableName") String tableName);
+    Factory[] getOrderFactory(@Param("tableName") String tableName);
 
     void updateFactoryInventory(@Param("factories") Factory[] factories, @Param("tableName") String tableName);
 
     int createOrder(Order order);
 
-    Car[] chooseCars(@Param("amount") int amount);
+    Car[] chooseCars();
 
 }

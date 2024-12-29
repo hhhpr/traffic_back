@@ -20,7 +20,7 @@ public class OrderService {
 
     public boolean whetherProduct(){
         //是否生产货物，比较正在运输的订单状态与车辆数
-        return Objects.equals(orderMapper.getOrderCount(1), orderMapper.getCarCount());
+        return orderMapper.getOrderCount(1) == orderMapper.getCarCount();
     }
 
     public void orderProduct(){
@@ -32,8 +32,8 @@ public class OrderService {
 
             order.setGeneration_time(new Timestamp(System.currentTimeMillis())); //获取当前时间
 
-            Factory[] startfactory = orderMapper.getOrderFactory(1, "woodfactory1"); // 获取一级工厂
-            Factory[] endfactory = orderMapper.getOrderFactory(1, "furniturefactory"); //获取二级工厂
+            Factory[] startfactory = orderMapper.getOrderFactory("woodfactory1"); // 获取一级工厂
+            Factory[] endfactory = orderMapper.getOrderFactory("furniturefactory"); //获取二级工厂
             Random random = new Random();
             int ocount = random.nextInt(1, endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory()); //需要运输的货物量
             // 先生成订单需要的数量（随机），再和good存量比较，不够则原料转化，再不够则最多的数量为订单数
@@ -55,7 +55,7 @@ public class OrderService {
             //车辆匹配
             int carid = 0;
             double dis = 0;
-            Car[] cars = orderMapper.chooseCars(3);
+            Car[] cars = orderMapper.chooseCars();
             for (Car car : cars){
                 if(car != null){
 
@@ -85,10 +85,15 @@ public class OrderService {
             order.setGoodcount(ocount);
             order.setCarid(carid);
 
-            orderMapper.createOrder(order);//创建订单
+            //创建订单
+            orderMapper.createOrder(order);
+            System.out.println("已创建一条新订单");
 
-            orderMapper.updateFactoryInventory(startfactory, "woodfactory1");//更新工厂信息
+            //更新工厂信息
+            orderMapper.updateFactoryInventory(startfactory, "woodfactory1");
+            System.out.println("已更新wood工厂信息");
             orderMapper.updateFactoryInventory(endfactory, "furniturefactory");
+            System.out.println("已更新furniture工厂信息");
         }
     }
 
