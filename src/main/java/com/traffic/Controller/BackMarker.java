@@ -33,4 +33,10 @@ public class BackMarker {
         Marker[] data= markerService.getfurMarker();
         return Result.success(data);
     }
+
+    @GetMapping("/FacMarkerList")
+    public Result backFacMarkerData() {
+        Marker[] data=markerService.getFacMarker();
+        return Result.success(data);
+    }
 }

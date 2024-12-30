@@ -31,4 +31,5 @@ public interface FetchData {
     Marker[] furFacPOIList();
     Marker[] furPOIList();
 
+    Marker[] FacPOIList();
 }

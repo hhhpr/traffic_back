@@ -5,7 +5,6 @@
         SELECT COUNT(*)
         FROM orders
         WHERE state = #{state}
-
     </select>
 
     <select id="getCarCount" resultType="int">
@@ -53,6 +52,17 @@
         FROM car
         WHERE isready = 1
         ORDER BY `load` DESC
+    </select>
+
+    <select id="fetchOrder">
+        SELECT o.*
+        FROM
+        (SELECT *
+         FROM orders
+         WHERE state = 0) o
+        JOIN car c ON o.carid=c.id
+        JOIN
+        ;
     </select>
 
 </mapper>

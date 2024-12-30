@@ -4,6 +4,7 @@ import com.traffic.Mapper.OrderMapper;
 import com.traffic.pojo.Car;
 import com.traffic.pojo.Factory;
 import com.traffic.pojo.Order;
+import com.traffic.pojo.TotalOrderInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,4 +99,9 @@ public class OrderService {
     }
 
 
+    public TotalOrderInfo[] getTotalOrderInfo() {
+        Order[] orders=orderMapper.fetchOrder();
+
+        return null;
+    }
 }

@@ -20,4 +20,6 @@ public interface OrderMapper {
 
     Car[] chooseCars();
 
+    Order[] fetchOrder();
+
 }

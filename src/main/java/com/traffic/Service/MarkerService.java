@@ -19,4 +19,8 @@ public class MarkerService {
     public Marker[] getfurMarker() {
         return fetchData.furPOIList();
     }
+
+    public Marker[] getFacMarker() {
+        return fetchData.FacPOIList();
+    }
 }

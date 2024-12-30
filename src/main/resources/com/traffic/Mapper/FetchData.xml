@@ -5,7 +5,6 @@
         INSERT INTO furniture(id,name,address,latitude,longitude)
         VALUES (#{id},#{name},#{address},#{latitude},#{longitude})
     </insert>
-
     <select id="woodFacPOIList">
         select * from woodfactory1;
     </select>
@@ -14,5 +13,8 @@
     </select>
     <select id="furPOIList">
         select * from furniture;
+    </select>
+    <select id="FacPOIList">
+        select *from woodfactory1;
     </select>
 </mapper>
