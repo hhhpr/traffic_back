@@ -14,6 +14,13 @@ public class Marker {
     String address;
     double latitude;
     double longitude;
-    int type;
+    int clas;
+    String goodsID;
+    int rawInventory;
+    int goodsInventory;
+    int totalInventory;
+    double transRate;
+    double speedRate;
+    String rawID;
 
 }

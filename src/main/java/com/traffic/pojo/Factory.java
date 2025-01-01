@@ -17,4 +17,5 @@ public class Factory {
     public int totalInventory;
     public double transRate;
     public int speedRate;
+    public String rawID;
 }

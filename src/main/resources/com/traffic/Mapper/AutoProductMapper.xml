@@ -3,7 +3,7 @@
 <mapper namespace="com.traffic.Mapper.AutoProductMapper">
     <update id="updateInventory">
         <foreach collection="factories" item="factory" separator=";">
-            UPDATE ${tableName}
+            UPDATE woodfactory1
             SET goodsInventory = #{factory.goodsInventory}, rawInventory = #{factory.rawInventory}
             WHERE id = #{factory.id}
         </foreach>
@@ -11,8 +11,9 @@
 
     <select id="enableToProductFactory" parameterType="map">
         SELECT *
-        FROM ${tableName}
-        WHERE rawInventory &lt; totalInventory * 0.4
+        FROM woodfactory1
+        WHERE clas = #{clas}
+          AND rawInventory &lt; totalInventory * 0.4
           AND (rawInventory+goodsInventory) &lt; totalInventory * 0.8
         ORDER BY (rawInventory+goodsInventory) / totalInventory ASC;
     </select>

@@ -10,15 +10,16 @@ public class MarkerService {
 
     @Autowired
     private FetchData fetchData;
-    public Marker[] getwoodFacMarker() {
-        return fetchData.woodFacPOIList();
-    }
-    public Marker[] getfurFacMarker() {
-        return fetchData.furFacPOIList();
-    }
-    public Marker[] getfurMarker() {
-        return fetchData.furPOIList();
-    }
+    //弃用
+//    public Marker[] getwoodFacMarker() {
+//        return fetchData.woodFacPOIList();
+//    }
+//    public Marker[] getfurFacMarker() {
+//        return fetchData.furFacPOIList();
+//    }
+//    public Marker[] getfurMarker() {
+//        return fetchData.furPOIList();
+//    }
 
     public Marker[] getFacMarker() {
         return fetchData.FacPOIList();

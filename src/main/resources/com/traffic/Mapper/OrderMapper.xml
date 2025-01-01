@@ -14,13 +14,14 @@
 
     <select id="getOrderFactory">
         SELECT *
-        FROM ${tableName}
+        FROM woodfactory1
+        WHERE clas=#{clas}
         ORDER BY (rawInventory+goodsInventory) / totalInventory DESC
     </select>
 
     <update id="updateFactoryInventory">
         <foreach collection="factories" item="factory" separator=";">
-            UPDATE ${tableName}
+            UPDATE woodfactory1
             SET goodsInventory = #{factory.goodsInventory}, rawInventory = #{factory.rawInventory}
             WHERE id = #{factory.id}
         </foreach>
@@ -28,7 +29,7 @@
 
     <insert id="createOrder" parameterType="com.traffic.pojo.Order">
         INSERT INTO orders (
-            generation_time,
+            generationtime,
             startlatitude, startlongitude,
             endlatitude, endlongitude,
             goodid, goodcount,
@@ -54,15 +55,116 @@
         ORDER BY `load` DESC
     </select>
 
-    <select id="fetchOrder">
-        SELECT o.*
-        FROM
-        (SELECT *
-         FROM orders
-         WHERE state = 0) o
-        JOIN car c ON o.carid=c.id
-        JOIN
-        ;
+    <resultMap id="TotalOrderInfoMap" type="com.traffic.pojo.TotalOrderInfo">
+        <association property="order" javaType="com.traffic.pojo.Order">
+            <id column="order_id" property="id"/>
+            <result column="order_state" property="state"/>
+            <result column="order_generationtime" property="generationtime"/>
+            <result column="order_startfactoryid" property="startfactoryid"/>
+            <result column="order_startfactoryname" property="startfactoryname"/>
+            <result column="order_startlatitude" property="startlatitude"/>
+            <result column="order_startlongitude" property="startlongitude"/>
+            <result column="order_endfactoryid" property="endfactoryid"/>
+            <result column="order_endfactoryname" property="endfactoryname"/>
+            <result column="order_endlatitude" property="endlatitude"/>
+            <result column="order_endlongitude" property="endlongitude"/>
+            <result column="order_carid" property="carid"/>
+            <result column="order_goodid" property="goodid"/>
+            <result column="order_goodcount" property="goodcount"/>
+        </association>
+        <association property="car" javaType="com.traffic.pojo.Car">
+            <id column="car_id" property="id"/>
+            <result column="car_type" property="type"/>
+            <result column="car_load" property="load"/>
+            <result column="car_latitude" property="latitude"/>
+            <result column="car_longitude" property="longitude"/>
+        </association>
+        <association property="startFactory" javaType="com.traffic.pojo.Factory">
+            <id column="start_factory_id" property="id"/>
+            <result column="start_factory_name" property="name"/>
+            <result column="start_factory_address" property="address"/>
+            <result column="start_factory_latitude" property="latitude"/>
+            <result column="start_factory_longitude" property="longitude"/>
+            <result column="start_factory_clas" property="clas"/>
+            <result column="start_factory_goodsID" property="goodsID"/>
+            <result column="start_factory_rawInventory" property="rawInventory"/>
+            <result column="start_factory_goodsInventory" property="goodsInventory"/>
+            <result column="start_factory_totalInventory" property="totalInventory"/>
+            <result column="start_factory_transRate" property="transRate"/>
+            <result column="start_factory_speedRate" property="speedRate"/>
+            <result column="start_factory_rawID" property="rawID"/>
+        </association>
+        <association property="endFactory" javaType="com.traffic.pojo.Factory">
+            <id column="end_factory_id" property="id"/>
+            <result column="end_factory_name" property="name"/>
+            <result column="end_factory_address" property="address"/>
+            <result column="end_factory_latitude" property="latitude"/>
+            <result column="end_factory_longitude" property="longitude"/>
+            <result column="end_factory_clas" property="clas"/>
+            <result column="end_factory_goodsID" property="goodsID"/>
+            <result column="end_factory_rawInventory" property="rawInventory"/>
+            <result column="end_factory_goodsInventory" property="goodsInventory"/>
+            <result column="end_factory_totalInventory" property="totalInventory"/>
+            <result column="end_factory_transRate" property="transRate"/>
+            <result column="end_factory_speedRate" property="speedRate"/>
+            <result column="end_factory_rawID" property="rawID"/>
+        </association>
+    </resultMap>
+
+    <select id="fetchOrder" resultMap="TotalOrderInfoMap">
+        SELECT
+            o.id AS order_id,
+            o.state AS order_state,
+            o.generationtime AS order_generationtime,
+            o.startfactoryid AS order_startfactoryid,
+            o.startfactoryname AS order_startfactoryname,
+            o.startlatitude AS order_startlatitude,
+            o.startlongitude AS order_startlongitude,
+            o.endfactoryid AS order_endfactoryid,
+            o.endfactoryname AS order_endfactoryname,
+            o.endlatitude AS order_endlatitude,
+            o.endlongitude AS order_endlongitude,
+            o.carid AS order_carid,
+            o.goodid AS order_goodid,
+            o.goodcount AS order_goodcount,
+            c.id AS car_id,
+            c.type AS car_type,
+            c.load AS car_load,
+            c.latitude AS car_latitude,
+            c.longitude AS car_longitude,
+            w1.id AS start_factory_id,
+            w1.name AS start_factory_name,
+            w1.address AS start_factory_address,
+            w1.latitude AS start_factory_latitude,
+            w1.longitude AS start_factory_longitude,
+            w1.clas AS start_factory_clas,
+            w1.goodsID AS start_factory_goodsID,
+            w1.rawInventory AS start_factory_rawInventory,
+            w1.goodsInventory AS start_factory_goodsInventory,
+            w1.totalInventory AS start_factory_totalInventory,
+            w1.transRate AS start_factory_transRate,
+            w1.speedRate AS start_factory_speedRate,
+            w1.rawID AS start_factory_rawID,
+            w2.id AS end_factory_id,
+            w2.name AS end_factory_name,
+            w2.address AS end_factory_address,
+            w2.latitude AS end_factory_latitude,
+            w2.longitude AS end_factory_longitude,
+            w2.clas AS end_factory_clas,
+            w2.goodsID AS end_factory_goodsID,
+            w2.rawInventory AS end_factory_rawInventory,
+            w2.goodsInventory AS end_factory_goodsInventory,
+            w2.totalInventory AS end_factory_totalInventory,
+            w2.transRate AS end_factory_transRate,
+            w2.speedRate AS end_factory_speedRate,
+            w2.rawID AS end_factory_rawID
+        FROM (
+            SELECT *
+            FROM orders
+            WHERE state = 0) o
+                 LEFT JOIN car c ON o.carid = c.id
+                 LEFT JOIN woodfactory1 w1 ON o.startfactoryid = w1.id
+                 LEFT JOIN woodfactory1 w2 ON o.endfactoryid = w2.id
     </select>
 
 </mapper>

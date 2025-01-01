@@ -16,9 +16,9 @@ public class AutoProduct {
     @Scheduled(cron = "0/15 * * * * ?" )
     public void productTask(){
         //一级工厂的生产，不需要原料，只考虑工厂库存积压
-        autoProductService.AutoProduct("woodfactory1");
+        autoProductService.AutoProduct(1);
 
         //二级工厂的生产，考虑原料和现有库存
-        autoProductService.AutoProduct("furniturefactory");
+        autoProductService.AutoProduct(2);
     }
 }

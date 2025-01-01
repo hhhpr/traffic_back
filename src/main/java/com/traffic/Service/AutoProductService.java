@@ -15,9 +15,9 @@ public class AutoProductService {
 
 
     private int proTime=15;//表示本轮生产的时间，15s
-    public void AutoProduct(String tableName){
+    public void AutoProduct(int clas){
         //首先查询数据库，找出现有原料存量小于总容量40%且总库存小于总容量的80%的工厂
-        Factory[] enableProductFactories = autoProductMapper.enableToProductFactory(tableName);
+        Factory[] enableProductFactories = autoProductMapper.enableToProductFactory(clas);
 
         //对返回的工厂进行生产
         if(enableProductFactories.length!=0){
@@ -31,8 +31,8 @@ public class AutoProductService {
                     }
                 }
                 //更新
-                System.out.println("更新了"+tableName+"的库存");
-                autoProductMapper.updateInventory(enableProductFactories,tableName);
+                System.out.println("更新了"+clas+"级工厂的库存");
+                autoProductMapper.updateInventory(enableProductFactories,clas);
             }else{
                 int maxProNum=0;//表示本轮可以生产的产品数量，受原料和总容量制约
                 int newGoodsInventory=0;
@@ -55,8 +55,8 @@ public class AutoProductService {
                 }
 
                 //更新
-                System.out.println("更新了"+tableName+"的库存");
-                autoProductMapper.updateInventory(enableProductFactories,tableName);
+                System.out.println("更新了"+clas+"级工厂的库存");
+                autoProductMapper.updateInventory(enableProductFactories,clas);
             }
         }else{
             return;

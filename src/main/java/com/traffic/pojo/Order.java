@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 public class Order {
     public int id;
     public int state; // 0表示没有接单,1表示正在运输,2表示运输完成
-    public Timestamp generation_time;
+    public Timestamp generationtime;
     public int startfactoryid;
     public String startfactoryname;
     public double startlatitude;

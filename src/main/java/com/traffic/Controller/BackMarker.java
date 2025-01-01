@@ -18,21 +18,22 @@ public class BackMarker {
     @Autowired
     private MarkerService markerService;
 
-    @GetMapping("/woodFacMarkerList")
-    public Result backwoodFacMarkerData1(){
-        Marker[] data= markerService.getwoodFacMarker();
-        return Result.success(data);
-    }
-    @GetMapping("/furFacMarkerList")
-    public Result backfurFacMarkerData(){
-        Marker[] data= markerService.getfurFacMarker();
-        return Result.success(data);
-    }
-    @GetMapping("/furMarkerList")
-    public Result backfurMarkerData(){
-        Marker[] data= markerService.getfurMarker();
-        return Result.success(data);
-    }
+    //弃用
+//    @GetMapping("/woodFacMarkerList")
+//    public Result backwoodFacMarkerData1(){
+//        Marker[] data= markerService.getwoodFacMarker();
+//        return Result.success(data);
+//    }
+//    @GetMapping("/furFacMarkerList")
+//    public Result backfurFacMarkerData(){
+//        Marker[] data= markerService.getfurFacMarker();
+//        return Result.success(data);
+//    }
+//    @GetMapping("/furMarkerList")
+//    public Result backfurMarkerData(){
+//        Marker[] data= markerService.getfurMarker();
+//        return Result.success(data);
+//    }
 
     @GetMapping("/FacMarkerList")
     public Result backFacMarkerData() {

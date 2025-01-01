@@ -3,6 +3,7 @@ package com.traffic.Mapper;
 import com.traffic.pojo.Car;
 import com.traffic.pojo.Factory;
 import com.traffic.pojo.Order;
+import com.traffic.pojo.TotalOrderInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,14 +13,14 @@ public interface OrderMapper {
 
     int getCarCount();
 
-    Factory[] getOrderFactory(@Param("tableName") String tableName);
+    Factory[] getOrderFactory(@Param("clas") int clas);
 
-    void updateFactoryInventory(@Param("factories") Factory[] factories, @Param("tableName") String tableName);
+    void updateFactoryInventory(@Param("factories") Factory[] factories);
 
     int createOrder(Order order);
 
     Car[] chooseCars();
 
-    Order[] fetchOrder();
+    TotalOrderInfo[] fetchOrder();
 
 }

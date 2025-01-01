@@ -31,10 +31,10 @@ public class OrderService {
 
             Order order = new Order();
 
-            order.setGeneration_time(new Timestamp(System.currentTimeMillis())); //获取当前时间
+            order.setGenerationtime(new Timestamp(System.currentTimeMillis())); //获取当前时间
 
-            Factory[] startfactory = orderMapper.getOrderFactory("woodfactory1"); // 获取一级工厂
-            Factory[] endfactory = orderMapper.getOrderFactory("furniturefactory"); //获取二级工厂
+            Factory[] startfactory = orderMapper.getOrderFactory(1); // 获取一级工厂
+            Factory[] endfactory = orderMapper.getOrderFactory(2); //获取二级工厂
             Random random = new Random();
             int ocount = random.nextInt(1, endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory()); //需要运输的货物量
             // 先生成订单需要的数量（随机），再和good存量比较，不够则原料转化，再不够则最多的数量为订单数
@@ -91,17 +91,16 @@ public class OrderService {
             System.out.println("已创建一条新订单");
 
             //更新工厂信息
-            orderMapper.updateFactoryInventory(startfactory, "woodfactory1");
+            orderMapper.updateFactoryInventory(startfactory);
             System.out.println("已更新wood工厂信息");
-            orderMapper.updateFactoryInventory(endfactory, "furniturefactory");
+            orderMapper.updateFactoryInventory(endfactory);
             System.out.println("已更新furniture工厂信息");
         }
     }
 
-
     public TotalOrderInfo[] getTotalOrderInfo() {
-        Order[] orders=orderMapper.fetchOrder();
-
-        return null;
+        TotalOrderInfo[] totalOrders=orderMapper.fetchOrder();
+        System.out.println(totalOrders.length);
+        return totalOrders;
     }
 }
