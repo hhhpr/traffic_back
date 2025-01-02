@@ -100,7 +100,9 @@ public class OrderService {
 
     public TotalOrderInfo[] getTotalOrderInfo() {
         TotalOrderInfo[] totalOrders=orderMapper.fetchOrder();
-        System.out.println(totalOrders.length);
+        if(totalOrders.length!=0){
+            orderMapper.updateOrderState(totalOrders,1);
+        }
         return totalOrders;
     }
 }

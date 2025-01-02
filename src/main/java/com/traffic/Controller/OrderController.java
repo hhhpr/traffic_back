@@ -19,6 +19,7 @@ public class OrderController {
 
         if(!ordercount){
             orderService.orderProduct(); // 生成订单并修改库存信息
+            System.out.println("生成了新订单");
         } else {
             System.out.println("没有空闲车辆"); //返回前端没有空闲车辆的信息,这里只是输出信息
         }

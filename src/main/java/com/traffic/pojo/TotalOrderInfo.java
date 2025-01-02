@@ -5,4 +5,5 @@ public class TotalOrderInfo {
     public Car car;
     public Factory startFactory;
     public Factory endFactory;
+    public Good good;
 }

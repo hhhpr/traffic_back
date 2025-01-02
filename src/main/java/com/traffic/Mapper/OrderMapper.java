@@ -23,4 +23,7 @@ public interface OrderMapper {
 
     TotalOrderInfo[] fetchOrder();
 
+    //用于修改订单状态
+    void updateOrderState(TotalOrderInfo[] totalOrders,int state);
+
 }

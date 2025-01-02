@@ -109,6 +109,13 @@
             <result column="end_factory_speedRate" property="speedRate"/>
             <result column="end_factory_rawID" property="rawID"/>
         </association>
+        <association property="good" javaType="com.traffic.pojo.Good">
+            <id column="good_id" property="id"/>
+            <result column="good_name" property="name"/>
+            <result column="good_type" property="type"/>
+            <result column="good_level" property="level"/>
+            <result column="good_belong" property="belong"/>
+        </association>
     </resultMap>
 
     <select id="fetchOrder" resultMap="TotalOrderInfoMap">
@@ -157,7 +164,12 @@
             w2.totalInventory AS end_factory_totalInventory,
             w2.transRate AS end_factory_transRate,
             w2.speedRate AS end_factory_speedRate,
-            w2.rawID AS end_factory_rawID
+            w2.rawID AS end_factory_rawID,
+            g.id AS good_id,
+            g.name AS good_name,
+            g.type AS good_type,
+            g.level AS good_level,
+            g.belong AS good_belong
         FROM (
             SELECT *
             FROM orders
@@ -165,6 +177,15 @@
                  LEFT JOIN car c ON o.carid = c.id
                  LEFT JOIN woodfactory1 w1 ON o.startfactoryid = w1.id
                  LEFT JOIN woodfactory1 w2 ON o.endfactoryid = w2.id
+                 LEFT JOIN good g ON o.goodid = g.id
     </select>
+
+    <update id="updateOrderState">
+        <foreach collection="totalOrders" item="totalOrder" separator=";">
+            UPDATE orders
+            SET state = #{state}
+            WHERE id = #{totalOrder.order.id}
+        </foreach>
+    </update>
 
 </mapper>
