@@ -7,22 +7,61 @@
         WHERE state = #{state}
     </select>
 
+    <select id="getIdOrder">
+        SELECT *
+        FROM orders
+        WHERE id = #{id}
+    </select>
+
+    <select id="getIdFactory">
+        SELECT *
+        FROM woodfactory1
+        WHERE id = #{id}
+    </select>
+
     <select id="getCarCount" resultType="int">
         SELECT COUNT(*)
         FROM car
     </select>
 
-    <select id="getOrderFactory">
+    <select id="getStartOrderFactory">
+            SELECT *
+            FROM woodfactory1 f
+            WHERE f.clas = #{clas}
+              AND f.id NOT IN (
+                SELECT o.startfactoryid
+                FROM orders o
+                WHERE o.state IN (0, 1)
+            )
+              AND f.id NOT IN (
+                SELECT o.endfactoryid
+                FROM orders o
+                WHERE o.state IN (0, 1)
+            )
+            ORDER BY (f.rawInventory + f.goodsInventory) / f.totalInventory DESC
+    </select>
+
+    <select id="getEndOrderFactory">
         SELECT *
-        FROM woodfactory1
-        WHERE clas=#{clas}
-        ORDER BY (rawInventory+goodsInventory) / totalInventory DESC
+        FROM woodfactory1 f
+        WHERE f.clas = #{clas}
+          AND f.id NOT IN (
+            SELECT o.startfactoryid
+            FROM orders o
+            WHERE o.state IN (0, 1)
+        )
+          AND f.id NOT IN (
+            SELECT o.endfactoryid
+            FROM orders o
+            WHERE o.state IN (0, 1)
+        )
+        ORDER BY (f.rawInventory + f.goodsInventory) / f.totalInventory ASC
     </select>
 
     <update id="updateFactoryInventory">
         <foreach collection="factories" item="factory" separator=";">
             UPDATE woodfactory1
-            SET goodsInventory = #{factory.goodsInventory}, rawInventory = #{factory.rawInventory}
+            SET goodsInventory = #{factory.goodsInventory}
             WHERE id = #{factory.id}
         </foreach>
     </update>
@@ -59,7 +98,7 @@
         <association property="order" javaType="com.traffic.pojo.Order">
             <id column="order_id" property="id"/>
             <result column="order_state" property="state"/>
-            <result column="order_generationtime" property="generationtime"/>
+            <result column="order_generationtime" property="generation_time"/>
             <result column="order_startfactoryid" property="startfactoryid"/>
             <result column="order_startfactoryname" property="startfactoryname"/>
             <result column="order_startlatitude" property="startlatitude"/>
@@ -186,6 +225,18 @@
             SET state = #{state}
             WHERE id = #{totalOrder.order.id}
         </foreach>
+    </update>
+
+    <update id="updateCarState">
+        UPDATE car
+        SET isready = #{isready}
+        WHERE id = #{cid}
+    </update>
+
+    <update id="updateOrderStateTo">
+        UPDATE orders
+        SET state = #{state}
+        WHERE id = #{id}
     </update>
 
 </mapper>

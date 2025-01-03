@@ -13,7 +13,10 @@ public interface OrderMapper {
 
     int getCarCount();
 
-    Factory[] getOrderFactory(@Param("clas") int clas);
+    Factory[] getStartOrderFactory(@Param("clas") int clas);
+
+    Factory[] getEndOrderFactory(@Param("clas") int clas);
+
 
     void updateFactoryInventory(@Param("factories") Factory[] factories);
 
@@ -25,5 +28,13 @@ public interface OrderMapper {
 
     //用于修改订单状态
     void updateOrderState(TotalOrderInfo[] totalOrders,int state);
+
+    void updateCarState(@Param("isready") int isready, @Param("cid") int cid);
+
+    Order[] getIdOrder(@Param("id") int id);
+
+    Factory[] getIdFactory(@Param("id") int id);
+
+    void updateOrderStateTo(@Param("state") int state, @Param("id") int id);
 
 }

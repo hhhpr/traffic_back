@@ -1,15 +1,15 @@
 package com.traffic.Service;
 
 import com.traffic.Mapper.OrderMapper;
-import com.traffic.pojo.Car;
+import com.traffic.pojo.*;
 import com.traffic.pojo.Factory;
-import com.traffic.pojo.Order;
-import com.traffic.pojo.TotalOrderInfo;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -24,32 +24,35 @@ public class OrderService {
         return orderMapper.getOrderCount(1) == orderMapper.getCarCount();
     }
 
-    public void orderProduct(){
+    public int orderProduct(){
         int carcount = orderMapper.getCarCount();
         int ordercount = carcount - orderMapper.getOrderCount(0);
+        if (ordercount <= 0) return 1;
         for (int i = 0; i < ordercount; i++) {
 
             Order order = new Order();
-
-            order.setGenerationtime(new Timestamp(System.currentTimeMillis())); //获取当前时间
-
-            Factory[] startfactory = orderMapper.getOrderFactory(1); // 获取一级工厂
-            Factory[] endfactory = orderMapper.getOrderFactory(2); //获取二级工厂
             Random random = new Random();
+
+            order.setGeneration_time(new Timestamp(System.currentTimeMillis())); //获取当前时间
+
+            int clas = random.nextInt(2) + 1;
+            System.out.println(clas);
+            Factory[] startfactory = orderMapper.getStartOrderFactory(clas); // 获取上级工厂
+            Factory[] endfactory = orderMapper.getEndOrderFactory(clas + 1); //获取下级工厂
+            System.out.println("-----------------------------------------------");
+            System.out.println("startfactory:" + startfactory[0].getName());
+            System.out.println("endfactory:" + endfactory[0].getName());
+            System.out.println("-----------------------------------------------");
+
+            if(startfactory.length == 0 || endfactory.length == 0) return 2;
+
             int ocount = random.nextInt(1, endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory()); //需要运输的货物量
-            // 先生成订单需要的数量（随机），再和good存量比较，不够则原料转化，再不够则最多的数量为订单数
+            // 先生成订单需要的数量（下级工厂还能容纳的库存），再和good存量比较，不够则最多的数量为订单数
             if (ocount < startfactory[0].getGoodsInventory()){
                 startfactory[0].setGoodsInventory(startfactory[0].getGoodsInventory() - ocount);
             } else {
-                if (ocount < startfactory[0].getGoodsInventory() + startfactory[0].getRawInventory() * startfactory[0].getTransRate()){
-                    startfactory[0].setRawInventory((int) (startfactory[0].getRawInventory() - ((ocount - startfactory[0].getGoodsInventory()) / startfactory[0].getTransRate())));
-                    startfactory[0].setGoodsInventory(0);
-                }
-                else {
-                    ocount = (int) (startfactory[0].getGoodsInventory() + startfactory[0].getRawInventory() * startfactory[0].getTransRate());
-                    startfactory[0].setGoodsInventory(0);
-                    startfactory[0].setRawInventory(0);
-                }
+                ocount = startfactory[0].getGoodsInventory();
+                startfactory[0].setGoodsInventory(0);
             }
             endfactory[0].setRawInventory(endfactory[0].getRawInventory() + ocount);
 
@@ -72,6 +75,8 @@ public class OrderService {
                     }
                 }
             }
+            //更新车辆状态
+            orderMapper.updateCarState(0,carid);
 
             //生成订单的各项信息
             order.setStartfactoryid(startfactory[0].getId());
@@ -90,12 +95,14 @@ public class OrderService {
             orderMapper.createOrder(order);
             System.out.println("已创建一条新订单");
 
+
             //更新工厂信息
-            orderMapper.updateFactoryInventory(startfactory);
-            System.out.println("已更新wood工厂信息");
-            orderMapper.updateFactoryInventory(endfactory);
-            System.out.println("已更新furniture工厂信息");
+//            orderMapper.updateFactoryInventory(startfactory);
+//            System.out.println("已更新wood工厂信息");
+//            orderMapper.updateFactoryInventory(endfactory);
+//            System.out.println("已更新furniture工厂信息");
         }
+        return 0;
     }
 
     public TotalOrderInfo[] getTotalOrderInfo() {
@@ -104,5 +111,24 @@ public class OrderService {
             orderMapper.updateOrderState(totalOrders,1);
         }
         return totalOrders;
+    }
+
+    public int updateOrderTo(UpdateOrder updateOrder){
+        Order[] orders = orderMapper.getIdOrder(updateOrder.getOrderId());
+        if (updateOrder.getState() == 1){
+            //更新工厂信息
+            Factory[] factories = orderMapper.getIdFactory(orders[0].getStartfactoryid());
+            factories[0].setGoodsInventory(factories[0].getGoodsInventory() - orders[0].getGoodcount());
+            return 0;
+        }else {
+            //更新工厂信息
+            Factory[] factories = orderMapper.getIdFactory(orders[0].getEndfactoryid());
+            factories[0].setRawInventory(factories[0].getRawInventory() + orders[0].getGoodcount());
+            //更新车辆信息为待命
+            orderMapper.updateCarState(1, orders[0].getCarid());
+            //更新订单信息为完成
+            orderMapper.updateOrderStateTo(2, orders[0].getId());
+            return 1;
+        }
     }
 }
