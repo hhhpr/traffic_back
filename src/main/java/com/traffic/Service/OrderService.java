@@ -65,15 +65,17 @@ public class OrderService {
                     double cdis = Math.sqrt(xdisSquare + ydisSquare);
 
                     //记录最近的匹配的车
-                    if(cdis > dis){
+                    if(cdis > dis && carState(car.getId()) == 0){
                         dis = cdis;
                         carid = car.getId();
                         ci = j;
                     }
                 }
+                System.out.println("carid:" + carid);
             }
-            //更新车辆状态
-
+            if(carid == 0){
+                return 1;
+            }
 
             // 以选择到的车辆的最大运载量和目的工厂库存比较取较小的为最大运输只，再在最大运输值之间模拟
             int biggest = 0;
@@ -110,6 +112,7 @@ public class OrderService {
             orderMapper.createOrder(order);
             System.out.println("已创建一条新订单");
 
+            //更新车辆状态
             orderMapper.updateCarState(0,carid);
 
 
