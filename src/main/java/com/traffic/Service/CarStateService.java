@@ -17,10 +17,10 @@ public class CarStateService {
         Car[] cars=carMapper.getCar();
         Random random=new Random();
         for (Car car: cars){
-            if(car.isready==0&&car.state!=0){
+            if(car.isready==0&&car.state!=0){//如果车辆空闲且不是可接单状态，就改为可接单状态
                 carMapper.setCarState(car.id,0);
                 System.out.println("车辆"+car.id+"state改为0");
-            }else if(car.isready==0&&car.state==0){
+            }else if(car.isready==0&&car.state==0){//如果车辆空闲且是可接单装填，就以一定概率转换为拒绝接单或车辆保养状态
                 int rand=random.nextInt(0,100);
                 if(rand>=80){
                     if(rand>=90){

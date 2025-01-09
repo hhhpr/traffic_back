@@ -35,6 +35,7 @@ public class BackMarker {
 //        return Result.success(data);
 //    }
 
+    //返回所有工厂的点位，前端根据这个来初始化地图，在地图上标出工厂点位
     @GetMapping("/FacMarkerList")
     public Result backFacMarkerData() {
         Marker[] data=markerService.getFacMarker();

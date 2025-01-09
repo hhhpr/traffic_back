@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     @Autowired
     private OrderService orderService;
-
+//实现自动生产订单
     @Scheduled(cron = "0/15 * * * * ?" )
     public void orderTask(){
         //判断是否生成订单
@@ -33,6 +33,7 @@ public class OrderController {
         }
     }
 
+    //更新订单状态，比如前端模拟完成，更新订单状态为已完成
     @PostMapping("/updateOrder")
     public Result updateOrderState(@RequestBody UpdateOrder updateOrder){
         int clas = orderService.updateOrderTo(updateOrder);

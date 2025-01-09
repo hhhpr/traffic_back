@@ -21,6 +21,7 @@ public class MarkerService {
 //        return fetchData.furPOIList();
 //    }
 
+    //返回所用工厂点位供前端初始化地图
     public Marker[] getFacMarker() {
         return fetchData.FacPOIList();
     }

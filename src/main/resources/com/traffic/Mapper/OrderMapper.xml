@@ -1,29 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.traffic.Mapper.OrderMapper">
+<!--    查询对应state状态的订单数量-->
     <select id="getOrderCount" resultType="int">
         SELECT COUNT(*)
         FROM orders
         WHERE state = #{state}
     </select>
 
+<!--    查询对应id的订单信息-->
     <select id="getIdOrder">
         SELECT *
         FROM orders
         WHERE id = #{id}
     </select>
 
+<!--    查询对应id的工厂信息-->
     <select id="getIdFactory">
         SELECT *
         FROM woodfactory1
         WHERE id = #{id}
     </select>
 
+<!--    查询车辆的数量-->
     <select id="getCarCount" resultType="int">
         SELECT COUNT(*)
         FROM car
     </select>
 
+<!--    -->
     <select id="getStartOrderFactory">
             SELECT *
             FROM woodfactory1 f
@@ -40,6 +45,7 @@
             )
             ORDER BY (f.rawInventory + f.goodsInventory) / f.totalInventory DESC
     </select>
+
 
     <select id="getEndOrderFactory">
         SELECT *
@@ -58,6 +64,7 @@
         ORDER BY (f.rawInventory + f.goodsInventory) / f.totalInventory ASC
     </select>
 
+<!-- 更新工厂的产品库存-->
     <update id="updateFactoryInventory">
         <foreach collection="factories" item="factory" separator=";">
             UPDATE woodfactory1
@@ -66,6 +73,7 @@
         </foreach>
     </update>
 
+<!--    插入新生成的订单-->
     <insert id="createOrder" parameterType="com.traffic.pojo.Order">
         INSERT INTO orders (
             generationtime,
@@ -87,6 +95,7 @@
                )
     </insert>
 
+<!--    返回车辆，按运载量降序排列-->
     <select id="chooseCars">
         SELECT *
         FROM car
@@ -94,6 +103,7 @@
         ORDER BY `load` DESC
     </select>
 
+<!--    不用管，java返回类型定义-->
     <resultMap id="TotalOrderInfoMap" type="com.traffic.pojo.TotalOrderInfo">
         <association property="order" javaType="com.traffic.pojo.Order">
             <id column="order_id" property="id"/>
@@ -157,6 +167,7 @@
         </association>
     </resultMap>
 
+<!--    查询订单，并join订单对应的起始工厂、终点工厂、车辆信息、商品信息、原料信息，用于返回给前端完整的订单信息-->
     <select id="fetchOrder" resultMap="TotalOrderInfoMap">
         SELECT
             o.id AS order_id,
@@ -219,6 +230,7 @@
                  LEFT JOIN good g ON o.goodid = g.id
     </select>
 
+<!--    根据id批量修改订单状态-->
     <update id="updateOrderState">
         <foreach collection="totalOrders" item="totalOrder" separator=";">
             UPDATE orders
@@ -227,18 +239,21 @@
         </foreach>
     </update>
 
+<!--    根据id修改车辆状态-->
     <update id="updateCarState">
         UPDATE car
         SET isready = #{isready}
         WHERE id = #{cid}
     </update>
 
+<!--    根据id修改订单状态-->
     <update id="updateOrderStateTo">
         UPDATE orders
         SET state = #{state}
         WHERE id = #{id}
     </update>
 
+    <!-- 根据id查询车辆的信息 -->
     <select id="getCarState">
         SELECT state
         FROM car

@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Random;
 
+//弃用，不用管
 @Service
 public class UpdateService {
 

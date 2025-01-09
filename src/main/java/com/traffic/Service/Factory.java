@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//用于收集工厂poi点，现在已不再使用
 @Service
 public class Factory {
 

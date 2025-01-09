@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+//已弃用，不用管
 @Service
 public class InitService {
 

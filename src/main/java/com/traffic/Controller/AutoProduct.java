@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 public class AutoProduct {
-
     @Autowired
     private AutoProductService autoProductService;
-    //工厂自动生产接口，每15s进行一次生产
+    //工厂自动生产接口，每15s进行一次生产Auto
     @Scheduled(cron = "0/15 * * * * ?" )
     public void productTask(){
         //一级工厂的生产，不需要原料，只考虑工厂库存积压

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.traffic.Mapper.AutoProductMapper">
+<!--    根据传来的参数更新工厂的原料和产品库存-->
     <update id="updateInventory">
         <foreach collection="factories" item="factory" separator=";">
             UPDATE woodfactory1
@@ -9,6 +10,7 @@
         </foreach>
     </update>
 
+<!--    查询可以进行订单生产的工厂-->
     <select id="enableToProductFactory" parameterType="map">
         SELECT *
         FROM woodfactory1

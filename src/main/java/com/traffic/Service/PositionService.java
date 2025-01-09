@@ -4,6 +4,7 @@ import com.traffic.Mapper.FetchData;
 import com.traffic.pojo.Position;
 import org.springframework.stereotype.Service;
 
+//弃用，不用管
 @Service
 public class PositionService {
     private FetchData fetchData;

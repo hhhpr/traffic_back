@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-//暂时无用
+//弃用，不用管
 @Slf4j
 @RestController
 public class BackPosition {
