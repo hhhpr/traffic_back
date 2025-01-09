@@ -39,29 +39,25 @@ public class OrderService {
             System.out.println(clas);
             Factory[] startfactory = orderMapper.getStartOrderFactory(clas); // 获取上级工厂
             Factory[] endfactory = orderMapper.getEndOrderFactory(clas + 1); //获取下级工厂
-            System.out.println("-----------------------------------------------");
-            System.out.println("startfactory:" + startfactory[0].getName());
-            System.out.println("endfactory:" + endfactory[0].getName());
-            System.out.println("-----------------------------------------------");
+//            System.out.println("-----------------------------------------------");
+//            System.out.println("startfactory:" + startfactory[0].getName());
+//            System.out.println("endfactory:" + endfactory[0].getName());
+//            System.out.println("-----------------------------------------------");
 
             if(startfactory.length == 0 || endfactory.length == 0) return 2;
-
-            int ocount = random.nextInt(1, endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory()); //需要运输的货物量
-            // 先生成订单需要的数量（下级工厂还能容纳的库存），再和good存量比较，不够则最多的数量为订单数
-            if (ocount < startfactory[0].getGoodsInventory()){
-                startfactory[0].setGoodsInventory(startfactory[0].getGoodsInventory() - ocount);
-            } else {
-                ocount = startfactory[0].getGoodsInventory();
-                startfactory[0].setGoodsInventory(0);
-            }
-            endfactory[0].setRawInventory(endfactory[0].getRawInventory() + ocount);
 
             //车辆匹配
             int carid = 0;
             double dis = 0;
             Car[] cars = orderMapper.chooseCars();
-            for (Car car : cars){
-                if(car != null){
+            if(cars.length == 0) {
+                return 1;
+            }
+            int ci = 0;
+            for (int j = 0; j < Math.min(3, cars.length); j++){
+
+                if(cars[j] != null){
+                    Car car = cars[j];
 
                     //使用勾股定理计算两点之间的距离
                     double xdisSquare = (car.getLatitude() - startfactory[0].getLatitude()) * (car.getLatitude() - startfactory[0].getLatitude());
@@ -72,11 +68,30 @@ public class OrderService {
                     if(cdis > dis){
                         dis = cdis;
                         carid = car.getId();
+                        ci = j;
                     }
                 }
             }
             //更新车辆状态
-            orderMapper.updateCarState(0,carid);
+
+
+            // 以选择到的车辆的最大运载量和目的工厂库存比较取较小的为最大运输只，再在最大运输值之间模拟
+            int biggest = 0;
+            if(cars[ci].getLoad() <= endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory()){
+                biggest = cars[ci].getLoad();
+            } else {
+                biggest = endfactory[0].getTotalInventory() - endfactory[0].getGoodsInventory() - endfactory[0].getRawInventory();
+            }
+            int ocount = random.nextInt(1, biggest); //需要运输的货物量
+            if (ocount < startfactory[0].getGoodsInventory()){
+                startfactory[0].setGoodsInventory(startfactory[0].getGoodsInventory() - ocount);
+            } else {
+                ocount = startfactory[0].getGoodsInventory();
+                startfactory[0].setGoodsInventory(0);
+            }
+            endfactory[0].setRawInventory(endfactory[0].getRawInventory() + ocount);
+
+
 
             //生成订单的各项信息
             order.setStartfactoryid(startfactory[0].getId());
@@ -94,6 +109,8 @@ public class OrderService {
             //创建订单
             orderMapper.createOrder(order);
             System.out.println("已创建一条新订单");
+
+            orderMapper.updateCarState(0,carid);
 
 
             //更新工厂信息
