@@ -37,4 +37,6 @@ public interface OrderMapper {
 
     void updateOrderStateTo(@Param("state") int state, @Param("id") int id);
 
+
+    int getCarState(int carId);
 }

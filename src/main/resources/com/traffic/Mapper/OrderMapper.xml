@@ -239,4 +239,10 @@
         WHERE id = #{id}
     </update>
 
+    <select id="getCarState">
+        SELECT state
+        FROM car
+        WHERE id=#{carId}
+    </select>
+
 </mapper>

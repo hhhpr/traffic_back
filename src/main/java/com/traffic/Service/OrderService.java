@@ -131,4 +131,9 @@ public class OrderService {
             return 1;
         }
     }
+
+    public int carState(int carId){
+        return orderMapper.getCarState(carId);
+    }
+
 }
