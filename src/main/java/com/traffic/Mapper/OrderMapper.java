@@ -37,6 +37,9 @@ public interface OrderMapper {
 
     void updateOrderStateTo(@Param("state") int state, @Param("id") int id);
 
+    int getCarState(@Param("carId") int carId);
 
-    int getCarState(int carId);
+    void setFacGoodInventory(@Param("id") int id,@Param("goodsInventory") int goodsInventory);
+    void setFacRawInventory(@Param("id") int id,@Param("rawInventory") int rawInventory);
+
 }

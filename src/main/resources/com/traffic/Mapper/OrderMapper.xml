@@ -254,10 +254,24 @@
     </update>
 
     <!-- 根据id查询车辆的信息 -->
-    <select id="getCarState">
+    <select id="getCarState" resultType="int">
         SELECT state
         FROM car
         WHERE id=#{carId}
     </select>
+
+<!--    修改工厂产品库存-->
+    <update id="setFacGoodInventory">
+        UPDATE woodfactory1
+        SET goodsInventory=#{goodsInventory}
+        WHERE id=#{id}
+    </update>
+
+<!--    修改工厂原料库存-->
+    <update id="setFacRawInventory">
+        UPDATE woodfactory1
+        SET rawInventory=#{rawInventory}
+        WHERE id=#{id}
+    </update>
 
 </mapper>

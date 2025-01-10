@@ -138,12 +138,12 @@ public class OrderService {
         if (updateOrder.getState() == 1){
             //更新工厂信息
             Factory[] factories = orderMapper.getIdFactory(orders[0].getStartfactoryid());
-            factories[0].setGoodsInventory(factories[0].getGoodsInventory() - orders[0].getGoodcount());
+            orderMapper.setFacGoodInventory(factories[0].id,factories[0].getGoodsInventory() - orders[0].getGoodcount());
             return 0;
         }else {
             //更新工厂信息
             Factory[] factories = orderMapper.getIdFactory(orders[0].getEndfactoryid());
-            factories[0].setRawInventory(factories[0].getRawInventory() + orders[0].getGoodcount());
+            orderMapper.setFacRawInventory(factories[0].id,factories[0].getRawInventory() + orders[0].getGoodcount());
             //更新车辆信息为待命
             orderMapper.updateCarState(1, orders[0].getCarid());
             //更新订单信息为完成
