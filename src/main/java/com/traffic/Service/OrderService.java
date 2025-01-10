@@ -48,7 +48,7 @@ public class OrderService {
 
             //车辆匹配
             int carid = 0;
-            double dis = 0;
+            double dis = Double.MAX_VALUE;
             Car[] cars = orderMapper.chooseCars();
             if(cars.length == 0) {
                 return 1;
@@ -65,7 +65,7 @@ public class OrderService {
                     double cdis = Math.sqrt(xdisSquare + ydisSquare);
 
                     //记录最近的匹配的车
-                    if(cdis > dis && carState(car.getId()) == 0){
+                    if(cdis < dis && carState(car.getId()) == 0){
                         dis = cdis;
                         carid = car.getId();
                         ci = j;
